@@ -20,7 +20,7 @@ class TransparentFileSystem(object):
             self.base = base
 
     def __getattribute__(self, name):
-        # メンバ(selfに.でアクセス)にアクセスするたびに __getattribute__が呼び出されるので無限再帰...
+        # warning: to access members like "self.xxx" cause infinity recursive call
         print '__getattribute__'
         print object.__getattribute__(self, 'base')
         if (object.__getattribute__(self, 'hdfs_flag')) is True:
@@ -30,16 +30,6 @@ class TransparentFileSystem(object):
             print '__getattribute__ ' + name
             return object.__getattribute__(self, name)
         
-#    def __getattr__(self, name):
-#        print '__getattr__'
-#        def _method_missing( *args ):
-#            return args
-#
-#        if (hasattr(self.base, name)) is False:
-#            raise AttributeError(self.base.__class__.__name__ + ' object has no attribute ' + name)
-#
-#        return getattr(self.base, name, _method_missing)
-
     def glob(self, target):
         return glob.glob(target)
 
