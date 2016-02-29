@@ -62,8 +62,11 @@ class TransparentFileSystem(object):
     def exists(self, path):
         return os.path.exists(path)
         
-    def glob(self, target):
-        return glob.glob(target)
+    def glob(self, path):
+        return glob.glob(path)
+
+    def stat(self, path):
+        return os.stat(path)
 
 if __name__ == "__main__":
     hdfs_nn = '192.168.33.10'
@@ -91,8 +94,10 @@ if __name__ == "__main__":
     print tfs.info('/tmp/csv/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
     print tfs.get_block_locations('/tmp/csv/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
     # print tfs.cat('/tmp/csv/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
-    print tfs_local.df('/home/vagrant/work/data/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
-    print tfs_local.du('/home/vagrant/work/data/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
-    print tfs_local.exists('/home/vagrant/work/data/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
+    file =  '/home/vagrant/work/data/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat'
+    print tfs_local.df(file)
+    print tfs_local.du(file)
+    print tfs_local.exists(file)
+    print tfs_local.stat(file)
 
     sys.exit(0)
