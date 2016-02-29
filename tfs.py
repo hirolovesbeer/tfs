@@ -6,7 +6,7 @@ import glob
 import hdfs3
 from hdfs3 import HDFileSystem
 
-hdfs_nn = 'name node ip addr'
+hdfs_nn = '192.168.33.10'
 hdfs = HDFileSystem(host=hdfs_nn, port=8020)
 
 class TransparentFileSystem:
