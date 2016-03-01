@@ -68,6 +68,9 @@ class TransparentFileSystem(object):
     def stat(self, path):
         return os.stat(path)
 
+    def ls(self, path):
+        return os.listdir(path)
+
 if __name__ == "__main__":
     hdfs_nn = '192.168.33.10'
     hdfs = HDFileSystem(host=hdfs_nn, port=8020)
@@ -94,10 +97,12 @@ if __name__ == "__main__":
     print tfs.info('/tmp/csv/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
     print tfs.get_block_locations('/tmp/csv/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
     # print tfs.cat('/tmp/csv/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat')
+    dir = '/home/vagrant/work/data'
     file =  '/home/vagrant/work/data/json_dir_httparchive_Aug_1_2014_pages_urls_kw_print_domain_ip_byte_type.dat'
     print tfs_local.df(file)
     print tfs_local.du(file)
     print tfs_local.exists(file)
     print tfs_local.stat(file)
+    print tfs_local.ls(dir)
 
     sys.exit(0)
