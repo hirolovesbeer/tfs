@@ -6,6 +6,7 @@ import os.path
 import sys
 import glob
 import subprocess
+import yaml
 
 import hdfs3
 from hdfs3 import HDFileSystem
@@ -72,8 +73,13 @@ class TransparentFileSystem(object):
         return os.listdir(path)
 
 if __name__ == "__main__":
-    hdfs_nn = '192.168.33.10'
-    hdfs = HDFileSystem(host=hdfs_nn, port=8020)
+    # load the hdfs node info
+    f = open('hdfs.yml', 'r')
+    data = yaml.load(f)
+    f.close()
+
+    hdfs_nn = data['hdfs_nn']
+    hdfs = HDFileSystem(host=hdfs_nn, port=data['hdfs_port'])
 
     tfs = TransparentFileSystem(hdfs)
     print hdfs.exists('/tmp')
@@ -103,6 +109,6 @@ if __name__ == "__main__":
     print tfs_local.du(file)
     print tfs_local.exists(file)
     print tfs_local.stat(file)
-    print tfs_local.ls(dir)
+    # print tfs_local.ls(dir)
 
     sys.exit(0)
