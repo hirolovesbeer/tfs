@@ -72,6 +72,9 @@ class TransparentFileSystem(object):
     def ls(self, path):
         return os.listdir(path)
 
+    def mkdir(self, path, mkdir=0777):
+        return os.mkdir(path)
+
 if __name__ == "__main__":
     # load the hdfs node info
     f = open('hdfs.yml', 'r')
@@ -110,5 +113,7 @@ if __name__ == "__main__":
     print tfs_local.exists(file)
     print tfs_local.stat(file)
     # print tfs_local.ls(dir)
+	mode = 0777
+	print tfs_local.mkdir(dir + '/new', mode)
 
     sys.exit(0)
