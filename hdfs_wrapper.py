@@ -7,6 +7,8 @@ import sys
 import glob
 import subprocess
 import yaml
+import tempfile # for test
+import shutil
 
 import hdfs3
 from hdfs3 import HDFileSystem
@@ -75,6 +77,16 @@ class TransparentFileSystem(object):
     def mkdir(self, path, mkdir=0777):
         return os.mkdir(path)
 
+    def mv(self, src, dst):
+        return os.rename(src, dst)
+
+    def open(self, path, mode='rb'):
+        mode = mode.rstrip('b')
+        return open(path, mode)
+
+    def put(self, src, dst):
+        return shutil.copy(src, dst)
+
 if __name__ == "__main__":
     # load the hdfs node info
     f = open('hdfs.yml', 'r')
@@ -113,7 +125,23 @@ if __name__ == "__main__":
     print tfs_local.exists(file)
     print tfs_local.stat(file)
     # print tfs_local.ls(dir)
-	mode = 0777
-	print tfs_local.mkdir(dir + '/new', mode)
+    mode = 0777
+    print tfs_local.mkdir('./new', mode)
+    os.rmdir('./new')
+
+    tmp_file = tempfile.mkstemp()
+    print tmp_file
+    tfs_local.mv(tmp_file[1], '/tmp/move')
+    os.remove('/tmp/move')
+
+    tmp_file = tempfile.mkstemp()
+    print tmp_file
+    tfs_local.open(tmp_file[1])
+    os.remove(tmp_file[1])
+
+    tmp_file = tempfile.mkstemp()
+    print tmp_file
+    tfs_local.put(tmp_file[1], '/tmp/put_test')
+    os.remove('/tmp/put_test')
 
     sys.exit(0)
